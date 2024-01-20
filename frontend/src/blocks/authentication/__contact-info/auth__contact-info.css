@@ -1,0 +1,9 @@
+.auth__contact-info{
+  margin: 50px 0 0;
+}
+
+@media screen and (max-width: 580px) {
+  .auth__contact-info{
+    margin: 40px 0 0;
+  }
+}

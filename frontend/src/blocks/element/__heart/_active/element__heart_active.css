@@ -1,0 +1,9 @@
+.element__heart_active {
+    padding: 0;
+    margin-right: 5px;
+    min-width: 22px;
+    min-height: 19px;
+    background: url(../../../../images/Heart-active.svg) center/22px 19px no-repeat white;
+    color: black;
+    border: none;
+}

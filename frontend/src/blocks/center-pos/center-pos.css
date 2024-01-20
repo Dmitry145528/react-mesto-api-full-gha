@@ -1,0 +1,16 @@
+.center-pos {
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 950px) {
+    .center-pos {
+        margin: 0 27px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .center-pos {
+        margin: 0 auto;
+    }
+}

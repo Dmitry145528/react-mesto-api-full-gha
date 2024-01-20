@@ -1,0 +1,13 @@
+.header__button_mobile-close {
+  display: none;
+  width: 20px;
+  height: 20px;
+  background: url('../../../../images/Close-Icon.svg') center/20px 20px no-repeat black;
+}
+
+@media screen and (max-width: 580px) {
+  .header__button_mobile-close {
+    margin-right: 27px;
+    display: block;
+  }
+}

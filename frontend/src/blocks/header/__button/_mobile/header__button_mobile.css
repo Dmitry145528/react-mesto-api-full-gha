@@ -1,0 +1,13 @@
+.header__button_mobile {
+  display: none;
+  width: 24px;
+  height: 18px;
+  background: url('../../../../images/Burger-button.svg') center/24px 18px no-repeat black;
+}
+
+@media screen and (max-width: 580px) {
+  .header__button_mobile {
+    display: block;
+    margin-right: 27px;
+  }
+}

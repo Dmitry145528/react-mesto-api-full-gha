@@ -1,0 +1,20 @@
+.profile-info__title {
+    margin: 0;
+    max-width: 294px;
+    color: #FFF;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 1.14;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+    .profile-info__title {
+        max-width: 189px;
+        font-size: 27px;
+        line-height: normal;
+    }
+}

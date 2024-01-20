@@ -1,0 +1,17 @@
+.infoTooltip__container{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 60px 36px;
+    row-gap: 32px;
+    max-width: 358px;
+}
+
+@media screen and (max-width: 580px) {
+  .infoTooltip__container{
+    max-width: 280px;
+    padding: 50px 18px;
+    row-gap: 40px;
+  }
+}

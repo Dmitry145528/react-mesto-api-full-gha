@@ -1,0 +1,9 @@
+.auth__input{
+  color: #FFF;
+  border-color: #CCC;
+  background-color: black;
+}
+
+.auth__input::placeholder {
+  color:#CCC;
+}
