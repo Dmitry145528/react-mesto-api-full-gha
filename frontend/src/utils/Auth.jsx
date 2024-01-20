@@ -1,4 +1,4 @@
-const BASE_URL = 'https://auth.nomoreparties.co';
+const BASE_URL = 'http://localhost:3000';
 
 const checkResponse = (res) => {
   if (res.ok) {
@@ -15,6 +15,7 @@ const request = (url, options) => {
 const register = (password, email) => {
   return request(`${BASE_URL}/signup`, {
     method: 'POST',
+    credentials: "include",
     headers: {
       'Content-Type': 'application/json'
     },
@@ -25,14 +26,15 @@ const register = (password, email) => {
 const onLogin = (password, email) => {
   return request(`${BASE_URL}/signin`, {
     method: 'POST',
+    credentials: "include",
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ password, email })
   })
     .then((data) => {
-      if (data.token) {
-        localStorage.setItem('token', data.token);
+      if (data._id) {
+        localStorage.setItem('userId', data._id);
         return data;
       } else {
         return;
@@ -40,12 +42,13 @@ const onLogin = (password, email) => {
     })
 }
 
-const checkToken = (token) => {
+const checkToken = () => {
   return request(`${BASE_URL}/users/me`, {
     method: 'GET',
+    credentials: "include",
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      // 'Authorization': `Bearer ${token}`,
     }
   })
 }

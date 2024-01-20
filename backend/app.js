@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const router = require('./routes/routes');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
@@ -13,6 +14,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT, MONGO_URL } = process.env;
 
 const app = express();
+app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
 mongoose.connect(MONGO_URL || 'mongodb://127.0.0.1:27017/mestodb');
 
 app.use(express.json());

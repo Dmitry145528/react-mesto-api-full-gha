@@ -77,7 +77,12 @@ const updateUser = async (req, res, next) => {
       { new: true, runValidators: true },
     ).orFail(() => new Error('NotFoundError'));
 
-    return res.status(HTTP2_STATUS.HTTP_STATUS_OK).send(userUpdate);
+    return res.status(HTTP2_STATUS.HTTP_STATUS_OK).send(
+      {
+        name: userUpdate.name,
+        about: userUpdate.about,
+      },
+    );
   } catch (error) {
     if (error.message === 'NotFoundError') {
       return next(new NotFoundError('Пользователь по указанному ID не найден.'));
@@ -128,9 +133,9 @@ const login = async (req, res, next) => {
     }
 
     const token = jwt.sign({ _id: user._id }, SECRET_KEY || 'some-secret-key', { expiresIn: '7d' });
-    res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 * 24 * 7 });
+    res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 * 24 * 7, sameSite: true });
 
-    return res.status(HTTP2_STATUS.HTTP_STATUS_OK).send({ token });
+    return res.status(HTTP2_STATUS.HTTP_STATUS_OK).send(user);
   } catch (error) {
     return next(new UnauthorizedError('Необходима авторизация'));
   }

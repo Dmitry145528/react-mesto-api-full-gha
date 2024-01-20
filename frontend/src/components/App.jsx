@@ -37,15 +37,15 @@ function App() {
     // Функция для выполнения запросов к API
     const tokenCheck = () => {
 
-      if (localStorage.getItem('token')) {
-        const token = localStorage.getItem('token');
+      if (localStorage.getItem('userId')) {
+        const token = localStorage.getItem('userId');
 
         if (token) {
           // проверим токен
           checkToken(token).then((res) => {
             if (res) {
               // авторизуем пользователя
-              setEmail(res.data.email);
+              setEmail(res.email);
               handleLogin();
               navigate('/', { replace: true });
             }

@@ -18,12 +18,14 @@ class Api {
 
   getInitialCards() {
     return this.request(`${this._url}/cards`, {
+      credentials: "include",
       headers: this._headers
     });
   }
 
   addCard({ name, link }) {
     return this.request(`${this._url}/cards`, {
+      credentials: "include",
       headers: this._headers,
       method: 'POST',
       body: JSON.stringify({ name, link })
@@ -32,6 +34,7 @@ class Api {
 
   deleteCard(id) {
     return this.request(`${this._url}/cards/${id}/`, {
+      credentials: "include",
       headers: this._headers,
       method: 'DELETE',
     });
@@ -39,12 +42,14 @@ class Api {
 
   getProfileInfo() {
     return this.request(`${this._url}/users/me/`, {
+      credentials: "include",
       headers: this._headers
     });
   }
 
   setProfileInfo({ name, about }) {
     return this.request(`${this._url}/users/me/`, {
+      credentials: "include",
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({ name, about })
@@ -53,6 +58,7 @@ class Api {
 
   updateAvatar({ avatar }) {
     return this.request(`${this._url}/users/me/avatar/`, {
+      credentials: "include",
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({ avatar })
@@ -61,6 +67,7 @@ class Api {
 
   deleteLike(id) {
     return this.request(`${this._url}/cards/${id}/likes`, {
+      credentials: "include",
       headers: this._headers,
       method: 'DELETE',
     });
@@ -68,6 +75,7 @@ class Api {
 
   setLiked(id) {
     return this.request(`${this._url}/cards/${id}/likes`, {
+      credentials: "include",
       headers: this._headers,
       method: 'PUT',
     });
@@ -75,9 +83,8 @@ class Api {
 }
 
 const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-77',
+  url: 'http://localhost:3000',
   headers: {
-    authorization: 'e846f2e4-830c-4594-a8d1-58fb2c77ff48',
     'Content-Type': 'application/json'
   }
 });

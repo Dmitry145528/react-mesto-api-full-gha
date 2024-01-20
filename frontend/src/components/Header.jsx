@@ -14,7 +14,7 @@ function Header(props) {
 	}, [location.pathname]);
 
 	const onSignOut = () => {
-		localStorage.removeItem('token');
+		localStorage.removeItem('userId');
 		navigate('/sign-in', { replace: true });
 	}
 
