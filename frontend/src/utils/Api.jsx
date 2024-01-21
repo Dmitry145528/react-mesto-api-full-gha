@@ -57,7 +57,7 @@ class Api {
   }
 
   updateAvatar({ avatar }) {
-    return this.request(`${this._url}/users/me/avatar/`, {
+    return this.request(`${this._url}/users/me/avatar`, {
       credentials: "include",
       headers: this._headers,
       method: 'PATCH',

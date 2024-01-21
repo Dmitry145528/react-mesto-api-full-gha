@@ -34,31 +34,10 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Функция для выполнения запросов к API
-    const tokenCheck = () => {
+    const userId = localStorage.getItem('userId');
 
-      if (localStorage.getItem('userId')) {
-        const token = localStorage.getItem('userId');
-
-        if (token) {
-          // проверим токен
-          checkToken(token).then((res) => {
-            if (res) {
-              // авторизуем пользователя
-              setEmail(res.email);
-              handleLogin();
-              navigate('/', { replace: true });
-            }
-          })
-            .catch(err => {
-              console.error('Ошибка при запросе токена:', err);
-            });
-        }
-      }
-    }
-
-    const fetchData = () => {
-
+    if (userId) {
+      // проверим есть ли ID  в локальном хранилище
       Promise.all([
         api.getProfileInfo(),
         api.getInitialCards(),
@@ -70,10 +49,27 @@ function App() {
         .catch(err => {
           console.error('Ошибка при запросе к API:', err);
         });
-    };
+    }
+  }, [loginStatus]);
 
-    tokenCheck();
-    fetchData(); // Вызов функции
+  useEffect(() => {
+    // Функция для выполнения запросов к API
+    const userId = localStorage.getItem('userId');
+
+    if (userId) {
+      // проверим есть ли ID  в локальном хранилище
+      checkToken().then((res) => {
+        if (res) {
+          // авторизуем пользователя
+          setEmail(res.email);
+          handleLogin();
+          navigate('/', { replace: true });
+        }
+      })
+        .catch(err => {
+          console.error('Ошибка при запросе токена:', err);
+        });
+    }
   }, []);
 
   const handleEditAvatarClick = () => {
@@ -102,7 +98,7 @@ function App() {
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(id => id === currentUser._id);
 
     // Определяем, какой метод использовать
     const likeAction = () => isLiked ? api.deleteLike(card._id) : api.setLiked(card._id);

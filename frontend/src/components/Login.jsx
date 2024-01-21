@@ -11,11 +11,11 @@ function Login(props) {
       const { password, email } = formValue;
       Auth.onLogin(password, email)
         .then((data) => {
-          console.log(data);
           if (data._id) {
             Auth.checkToken(data._id).then((res) => {
               if (res) {
                 props.updateEmail(res.email);
+                props.handleLoginStatus(true);
                 props.handleLogin();
                 navigate('/', { replace: true });
               }
