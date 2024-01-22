@@ -144,6 +144,17 @@ const login = async (req, res, next) => {
   }
 };
 
+const logout = (req, res, next) => {
+  try {
+    // Очистка куки
+    res.clearCookie('jwt', { httpOnly: true, sameSite: true });
+
+    return res.status(HTTP2_STATUS.HTTP_STATUS_OK).json({ message: 'Вы успешно вышли из учетной записи' });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const getMyProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
@@ -165,4 +176,5 @@ module.exports = {
   updateAvatar,
   login,
   getMyProfile,
+  logout,
 };

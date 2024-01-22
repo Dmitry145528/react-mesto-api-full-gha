@@ -42,6 +42,16 @@ const onLogin = (password, email) => {
     })
 }
 
+const onLogout = () => {
+  return request(`${BASE_URL}/logout`, {
+    method: 'POST',
+    credentials: "include",
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+}
+
 const checkToken = () => {
   return request(`${BASE_URL}/users/me`, {
     method: 'GET',
@@ -52,4 +62,4 @@ const checkToken = () => {
   })
 }
 
-export { BASE_URL, register, onLogin, checkToken }
+export { BASE_URL, register, onLogin, onLogout, checkToken }

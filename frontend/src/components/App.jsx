@@ -14,7 +14,7 @@ import Login from './Login'
 import Register from './Register'
 import ProtectedRouteElement from './ProtectedRoute'
 import InfoToolTip from './InfoTooltip'
-import { checkToken } from '../utils/Auth'
+import { checkToken, onLogout } from '../utils/Auth'
 import CurrentUserContext from '../contexts/CurrentUserContext'
 
 function App() {
@@ -160,6 +160,18 @@ function App() {
     setLoggedIn(true);
   }
 
+  const onSignOut = () => {
+    onLogout().then((res) => {
+      if (res) {
+        localStorage.removeItem('userId');
+        navigate('/sign-in', { replace: true });
+      }
+    })
+      .catch(err => {
+        console.error('Ошибка на стороне сервера:', err);
+      });
+  }
+
   const updateEmail = (newEmail) => {
     setEmail(newEmail);
   };
@@ -176,7 +188,10 @@ function App() {
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="center-pos">
-          <Header email={email} />
+          <Header
+            email={email}
+            onSignOut={onSignOut}
+          />
           <Routes>
             <Route path="/" element={<ProtectedRouteElement element={Main}
               onEditAvatar={handleEditAvatarClick}
