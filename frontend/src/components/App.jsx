@@ -164,6 +164,7 @@ function App() {
     onLogout().then((res) => {
       if (res) {
         localStorage.removeItem('userId');
+        handleLoginStatus(false);
         navigate('/sign-in', { replace: true });
       }
     })
