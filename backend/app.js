@@ -15,7 +15,7 @@ const { PORT, MONGO_URL } = process.env;
 
 const app = express();
 app.use(cors({ origin: ['http://localhost:5173'], credentials: true, maxAge: 120 }));
-mongoose.connect(MONGO_URL);
+mongoose.connect(MONGO_URL || 'mongodb://127.0.0.1:27017/mestodb');
 
 app.use(express.json());
 app.use(cookieParser());
@@ -52,4 +52,4 @@ app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(PORT);
+app.listen(PORT || 3000);
