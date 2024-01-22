@@ -54,7 +54,15 @@ const createUser = async (req, res, next) => {
       about: req.body.about,
       avatar: req.body.avatar,
     });
-    return res.status(HTTP2_STATUS.HTTP_STATUS_CREATED).send(user);
+    return res.status(HTTP2_STATUS.HTTP_STATUS_CREATED).send(
+      {
+        data:
+        {
+          _id: user._id,
+          email: user.email,
+        },
+      },
+    );
   } catch (error) {
     if (error instanceof MongooseError.ValidationError) {
       return next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
