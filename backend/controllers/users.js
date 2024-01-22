@@ -8,7 +8,7 @@ const { ConflictError } = require('../errors/ConflictError');
 const { NotFoundError } = require('../errors/NotFoundError');
 const { UnauthorizedError } = require('../errors/UnauthorizedError');
 
-const { SECRET_KEY } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 const MONGO_ERROR_CODE_DUPLICATE = 11000;
 const HTTP2_STATUS = http2.constants;
 
@@ -54,15 +54,7 @@ const createUser = async (req, res, next) => {
       about: req.body.about,
       avatar: req.body.avatar,
     });
-    return res.status(HTTP2_STATUS.HTTP_STATUS_CREATED).send(
-      {
-        data:
-        {
-          _id: user._id,
-          email: user.email,
-        },
-      },
-    );
+    return res.status(HTTP2_STATUS.HTTP_STATUS_CREATED).send(user);
   } catch (error) {
     if (error instanceof MongooseError.ValidationError) {
       return next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
@@ -135,7 +127,7 @@ const login = async (req, res, next) => {
       return next(new UnauthorizedError('Неправильные почта или пароль'));
     }
 
-    const token = jwt.sign({ _id: user._id }, SECRET_KEY || 'some-secret-key', { expiresIn: '7d' });
+    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
     res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 * 24 * 7, sameSite: true });
 
     return res.status(HTTP2_STATUS.HTTP_STATUS_OK).send(user);

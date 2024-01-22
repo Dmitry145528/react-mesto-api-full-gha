@@ -47,7 +47,7 @@ function AuthForm({ title, onSubmit, buttonText, linkText, linkTo }) {
               placeholder="Пароль"
               name="password"
               type="password"
-              minLength="5"
+              minLength="8"
               required
             />
             <span className="password-error popup__input-error">{errors.password}</span>

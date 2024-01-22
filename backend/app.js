@@ -15,11 +15,15 @@ const { PORT, MONGO_URL } = process.env;
 
 const app = express();
 app.use(cors({ origin: ['http://localhost:5173'], credentials: true, maxAge: 120 }));
-mongoose.connect(MONGO_URL || 'mongodb://127.0.0.1:27017/mestodb');
+mongoose.connect(MONGO_URL);
 
 app.use(express.json());
 app.use(cookieParser());
-
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.use(requestLogger); // подключаем логгер запросов
 
 app.post('/signin', celebrate({
@@ -48,4 +52,4 @@ app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(PORT || 3000);
+app.listen(PORT);
