@@ -135,7 +135,7 @@ const login = async (req, res, next) => {
       return next(new UnauthorizedError('Неправильные почта или пароль'));
     }
 
-    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+    const token = jwt.sign({ _id: user._id }, NODE_ENV !== 'production' ? '1052c5d895350269c9db573f78ce6adf0a89f5a02d50f3f7acbec2d43674e0e3' : JWT_SECRET, { expiresIn: '7d' });
     res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 * 24 * 7, sameSite: true });
 
     return res.status(HTTP2_STATUS.HTTP_STATUS_OK).send(user);

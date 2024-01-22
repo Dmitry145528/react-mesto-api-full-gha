@@ -11,11 +11,11 @@ const auth = require('./middlewares/auth');
 const { errorHandler } = require('./errors/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT, MONGO_URL } = process.env;
+const { PORT, MONGO_URL, NODE_ENV } = process.env;
 
 const app = express();
 app.use(cors({ origin: ['http://localhost:5173'], credentials: true, maxAge: 120 }));
-mongoose.connect(MONGO_URL || 'mongodb://127.0.0.1:27017/mestodb');
+mongoose.connect(NODE_ENV !== 'production' ? 'mongodb://127.0.0.1:27017/mestodb' : MONGO_URL);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -52,4 +52,4 @@ app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(PORT || 3000);
+app.listen(NODE_ENV !== 'production' ? 3000 : PORT);
