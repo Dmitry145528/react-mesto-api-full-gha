@@ -14,7 +14,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT, MONGO_URL, NODE_ENV } = process.env;
 
 const app = express();
-app.use(cors({ origin: ['http://localhost:5173'], credentials: true, maxAge: 120 }));
+app.use(cors({ origin: ['https://project-mesto.nomoredomainsmonster.ru'], credentials: true, maxAge: 120 }));
 mongoose.connect(NODE_ENV !== 'production' ? 'mongodb://127.0.0.1:27017/mestodb' : MONGO_URL);
 
 app.use(express.json());
