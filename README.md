@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес: 84.252.131.151
+IP 84.252.131.151
 
 Frontend https://project-mesto.nomoredomainsmonster.ru
 
