@@ -3,8 +3,8 @@ import { Route, Routes, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Main from '../components/Main'
 import Footer from '../components/Footer'
-import PopupWithForm from '../components/PopupWithForm'
 import ImagePopup from './ImagePopup'
+import ConfirmationPopup from './ConfirmationPopup'
 import api from '../utils/Api'
 import Card from './Card'
 import EditProfilePopup from './EditProfilePopup'
@@ -22,15 +22,17 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(false);
+  const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
 
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedCardDelete, setSelectedCardDelete] = useState(null);
 
   const [currentUser, setCurrentUser] = useState('');
 
   const [email, setEmail] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loginStatus, setLoginStatus] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false); // Для статуса входа
+  const [loginStatus, setLoginStatus] = useState(null); // Для статуса попапов
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +52,7 @@ function App() {
           console.error('Ошибка при запросе к API:', err);
         });
     }
-  }, [loginStatus]);
+  }, [loggedIn]);
 
   useEffect(() => {
     // Функция для выполнения запросов к API
@@ -62,7 +64,7 @@ function App() {
         if (res) {
           // авторизуем пользователя
           setEmail(res.email);
-          handleLogin();
+          handleLogin(true);
           navigate('/', { replace: true });
         }
       })
@@ -82,6 +84,11 @@ function App() {
 
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+  };
+
+  const handleDeleteCardClick = (card) => {
+    setSelectedCardDelete(card);
+    setIsConfirmationPopupOpen(!isConfirmationPopupOpen);
   };
 
   const handleLoginStatus = (status) => {
@@ -114,9 +121,10 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id)
+     api.deleteCard(card._id)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== card._id));
+        closeAllPopups();
       })
       .catch((error) => {
         console.error('Ошибка удаления карточки:', error);
@@ -156,15 +164,15 @@ function App() {
       })
   }
 
-  const handleLogin = () => {
-    setLoggedIn(true);
+  const handleLogin = (status) => {
+    setLoggedIn(status);
   }
 
   const onSignOut = () => {
     onLogout().then((res) => {
       if (res) {
         localStorage.removeItem('userId');
-        handleLoginStatus(false);
+        handleLogin(false);
         navigate('/sign-in', { replace: true });
       }
     })
@@ -182,7 +190,9 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(false);
+    setSelectedCardDelete(false);
     setIsRegistrationPopupOpen(false);
+    setIsConfirmationPopupOpen(false);
   };
 
   return (
@@ -202,7 +212,7 @@ function App() {
                 <Card
                   key={card._id}
                   card={card}
-                  onCardDelete={handleCardDelete}
+                  onCardDelete={handleDeleteCardClick}
                   onCardLike={handleCardLike}
                   onCardClick={handleCardClick}
                 />
@@ -237,10 +247,12 @@ function App() {
           loginStatus={loginStatus}
         />
       </CurrentUserContext.Provider>
-      <PopupWithForm
-        title="Вы уверены?"
-        name="delete-card"
-        button="Да" />
+      <ConfirmationPopup
+        isOpen={isConfirmationPopupOpen}
+        onClose={closeAllPopups}
+        onConfirm={handleCardDelete}
+        card={selectedCardDelete}
+      />
       <ImagePopup
         name="popup-img-back"
         card={selectedCard}

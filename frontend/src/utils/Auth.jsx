@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.project-mesto.nomoredomainsmonster.ru';
+const BASE_URL = 'http://localhost:3000';
 
 const checkResponse = (res) => {
   if (res.ok) {

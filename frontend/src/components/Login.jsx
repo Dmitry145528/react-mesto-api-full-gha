@@ -16,7 +16,7 @@ function Login(props) {
               if (res) {
                 props.updateEmail(res.email);
                 props.handleLoginStatus(true);
-                props.handleLogin();
+                props.handleLogin(true);
                 navigate('/', { replace: true });
               }
             });

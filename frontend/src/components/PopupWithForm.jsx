@@ -9,7 +9,7 @@ function PopupWithForm(props) {
           <button
             type="submit"
             className={`popup__button ${props.isValid ? 'popup__button' : 'popup__button_disabled'}`}
-            aria-label="Кнопка с надписью сохранить"
+            aria-label="Кнопка с надписью"
             disabled={!props.isValid}
           >
             {props.button}
