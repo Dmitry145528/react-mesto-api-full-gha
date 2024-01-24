@@ -19,11 +19,6 @@ mongoose.connect(NODE_ENV !== 'production' ? 'mongodb://127.0.0.1:27017/mestodb'
 
 app.use(express.json());
 app.use(cookieParser());
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
 app.use(requestLogger); // подключаем логгер запросов
 
 app.post('/signin', celebrate({
